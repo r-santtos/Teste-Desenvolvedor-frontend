@@ -1,30 +1,73 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="app">
+    <AsideComponent />
+  
+    <router-view/>
+  </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+import AsideComponent from './components/AsideComponent.vue';
+
+export default defineComponent({
+  name: 'App',
+  components: {
+    AsideComponent,
+  },
+});
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  :root {
+    --primary: #4ade80;
+    --grey: #64748b;
+    --dark: #1e293b;
+    --light: #f1f5f9;
+    --sidebar-width: 250px;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+  }
+  body {
+    background: var(--light);
+  }
+  button {
+    cursor: pointer;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+  }
+  .app {
+    display: flex;
+    main {
+      flex: 1 1 0;
+      padding: 2rem;
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+      @media (min-width: 768px) {
+        padding: 6rem;
+      }
     }
   }
-}
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .container-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .container-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 1rem;
+  }
 </style>
