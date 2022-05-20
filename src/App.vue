@@ -1,18 +1,22 @@
 <template>
   <div class="app">
-    <AsideComponent />
-  
-    <router-view/>
+    <HeaderComponent />
+    <section id="body" class="container-row">
+      <AsideComponent />
+      <router-view/>
+    </section>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import HeaderComponent from './components/HeaderComponent.vue';
 import AsideComponent from './components/AsideComponent.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
+    HeaderComponent,
     AsideComponent,
   },
 });
@@ -45,6 +49,7 @@ export default defineComponent({
   }
   .app {
     display: flex;
+    flex-direction: column;
     main {
       flex: 1 1 0;
       padding: 2rem;
@@ -53,6 +58,10 @@ export default defineComponent({
         padding: 6rem;
       }
     }
+  }
+  #body {
+    align-items: flex-start;
+    justify-content: flex-start;
   }
   .container {
     display: flex;

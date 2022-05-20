@@ -39,7 +39,7 @@
     display: flex;
     flex-direction: column;
     width: calc(2rem + 32px);
-    min-height: 100vh;
+    min-height: calc(100vh - 70px);
     overflow: hidden;
     padding: 1rem;
 
