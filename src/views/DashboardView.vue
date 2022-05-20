@@ -13,5 +13,17 @@
 </script>
 
 <style lang="scss" scoped>
+  .dashboard {
+    padding: 1rem;
+    width: calc(100% - (2rem + 32px));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 4rem;
 
+    @media (min-width: 768px) {
+      width: calc(100% - (2rem + 64px));
+      margin-left: 0rem;
+    }
+  }
 </style>
