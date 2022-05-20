@@ -2,24 +2,27 @@
   <div class="search">
     <!-- ADD ADDRESS -->
     <div class="container add-address">
-      <form class="container">
-        <input type="search" name="search" id="search" />
-        <button type="submit">
+      <div id="form" class="container">
+        <input type="search" name="search" id="search" v-model="zipCode" />
+        <button type="submit" v-on:click="pushZipCode(zipCode)">
           <span class="material-icons">add</span>
           <span>Adicionar endereço</span>
         </button>
-      </form>
+      </div>
       
-      <div class="container-row list-zip-code">
+      <div
+        class="container-row list-zip-code"
+        v-for="(zipCodeList, index) in zipCodeList" :key="index"
+      >
         <span class="container">
           <span class="material-icons icon">where_to_vote</span>
         </span>
         <span class="container zip-code">cep</span>
-        <span class="container" style="color:gray">659165-568</span>
+        <span class="container" style="color:gray">{{zipCodeList}}</span>
       </div>
 
       <div class="container address-generator">
-        <button>
+        <button v-on:click="getZipCode(zipCode)">
           <span>Gerar endereços</span>
         </button>
       </div>
@@ -29,7 +32,10 @@
 
     <!-- ADDRESS LIST -->
     <div class="container box-list">
-      <div class="container-row address-list">
+      <div 
+        class="container-row address-list" 
+        v-for="(responseZipCode, index) in responseZipCode" :key="index"
+      >
         <span class="container icons">
           <span class="material-icons">where_to_vote</span>
         </span>
@@ -37,13 +43,16 @@
         <!-- CONTAINER ADDRESS -->
         <address class="container-row">
           <div class="container address">
-            <span>Rua Mandaguari, nº 556</span>
-            <span>Imperatriz-MA</span>
+            <span>{{responseZipCode.logradouro}}</span>
+            <span>{{responseZipCode.localidade}}-{{responseZipCode.uf}}</span>
           </div>
-          <span class="zip-code">65913-565</span>
+          <span class="zip-code">{{responseZipCode.cep}}</span>
         </address>
 
-        <button class="container icons">
+        <button 
+          class="container icons" 
+          v-on:click="deleteZipCode(responseZipCode.index)"
+        >
           <span class="material-icons delete">delete</span>
         </button>
       </div>
@@ -56,6 +65,34 @@
 
   export default defineComponent({
     name: 'SearchView',
+    data() {
+      return {
+        zipCode: '',
+        zipCodeList: [],
+        responseZipCode: [],
+      };
+    },
+    methods : {
+      pushZipCode(zipCode: never) {
+        this.zipCodeList.push(zipCode);
+      },
+      
+      getZipCode(zipCodeList: never) {
+        this.responseZipCode = [];
+        this.zipCodeList.forEach(zipCodeList => {
+          fetch(`https://viacep.com.br/ws/${zipCodeList}/json/`)
+            .then(response => response.json())
+            .then(response => {
+              this.responseZipCode.push(response);
+            });
+        });
+      },
+
+      deleteZipCode(index: never) {
+        this.zipCodeList.splice(index, 1);
+        this.responseZipCode.splice(index, 1);
+      },
+    },
   });
 </script>
 
@@ -72,7 +109,7 @@
     .add-address {
       width: 100%;
 
-      form {
+      #form {
         width: 100%;
         
         input {
