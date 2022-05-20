@@ -12,6 +12,11 @@
         <span class="material-icons">dashboard</span>
         <span class="text">Dashboard</span>
       </router-link>
+
+      <router-link class="button" to="/search">
+        <span class="material-icons">travel_explore</span>
+        <span class="text">Search</span>
+      </router-link>
     </div>
   </aside>
 </template>
