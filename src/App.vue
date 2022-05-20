@@ -20,9 +20,10 @@ export default defineComponent({
 
 <style lang="scss">
   :root {
-    --primary: #4ade80;
-    --grey: #64748b;
+    --background: ##E5E5E5;
+    --primary: #9206E9;
     --dark: #1e293b;
+    --grey: #F6F6F6;
     --light: #f1f5f9;
     --sidebar-width: 250px;
   }
@@ -33,7 +34,7 @@ export default defineComponent({
     font-family: 'Fira Sans', sans-serif;
   }
   body {
-    background: var(--light);
+    background: var(--background);
   }
   button {
     cursor: pointer;
