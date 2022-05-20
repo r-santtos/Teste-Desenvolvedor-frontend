@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   {
-    path: '/',
+    path: '/search',
     name: 'search',
     component: SearchView
   },
