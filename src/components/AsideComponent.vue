@@ -1,9 +1,5 @@
 <template>
   <aside :class="{active:isOpenDrawer}">
-    <div class="logo">
-      <img src="@/assets/logo.png" alt="logo vue" />
-    </div>
-
     <div class="menu-toggle-wrap">
       <button class="menu-toggle" v-on:click="toggleDrawer()">
         <span class="material-icons">double_arrow</span>
@@ -15,6 +11,11 @@
       <router-link class="button" to="/">
         <span class="material-icons">dashboard</span>
         <span class="text">Dashboard</span>
+      </router-link>
+
+      <router-link class="button" to="/search">
+        <span class="material-icons">travel_explore</span>
+        <span class="text">Search</span>
       </router-link>
     </div>
   </aside>
@@ -43,21 +44,14 @@
     display: flex;
     flex-direction: column;
     width: calc(2rem + 32px);
-    min-height: 100vh;
+    min-height: calc(100vh - 70px);
     overflow: hidden;
     padding: 1rem;
 
-    background-color: var(--dark);
-    color: var(--light);
+    background-color: var(--grey);
+    color: var(--dark);
 
     transition: 0.2s ease-out;
-    .logo {
-      margin-bottom: 1rem;
-
-      img {
-        width: 2rem;
-      }
-    }
     .menu-toggle-wrap {
       display: flex;
       justify-content: flex-end;
@@ -71,7 +65,7 @@
         transition: 0.2s ease-out;
         .material-icons {
           font-size: 2rem;
-          color: var(--light);
+          color: var(--dark);
           transition: 0.2s ease-out;
         }
 
@@ -88,7 +82,7 @@
       transition: 0.3s ease-out;
     }
     h3 {
-      color: var(--grey);
+      color: var(--dark);
       font-size: 0.875rem;
       margin-bottom: 0.5rem;
       text-transform: uppercase;
@@ -106,11 +100,11 @@
 
         .material-icons {
           font-size: 2rem;
-          color: var(--light);
+          color: var(--dark);
           transition: 0.2s ease-out;
         }
         .text {
-          color: var(--light);
+          color: var(--dark);
           transition: 0.2s ease-out;
         }
         &:hover {
@@ -128,7 +122,7 @@
     &.active {
       width: var(--sidebar-width);
       .menu-toggle-wrap {
-        top: -3rem;
+        top: -1rem;
         .menu-toggle {
           transform: rotate(-180deg);
         }
