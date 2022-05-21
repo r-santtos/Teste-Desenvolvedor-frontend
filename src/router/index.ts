@@ -5,14 +5,13 @@ import SearchView from '../views/SearchView.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'dashboard',
-    component: Dashboard
-  },
-
-  {
-    path: '/search',
     name: 'search',
     component: SearchView
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard
   },
 ]
 

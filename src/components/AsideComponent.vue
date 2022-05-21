@@ -9,13 +9,13 @@
     <h3>Menu</h3>
     <div class="menu">
       <router-link class="button" to="/">
-        <span class="material-icons">dashboard</span>
-        <span class="text">Dashboard</span>
-      </router-link>
-
-      <router-link class="button" to="/search">
         <span class="material-icons">travel_explore</span>
         <span class="text">Search</span>
+      </router-link>
+      
+      <router-link class="button" to="/dashboard">
+        <span class="material-icons">dashboard</span>
+        <span class="text">Dashboard</span>
       </router-link>
     </div>
   </aside>
