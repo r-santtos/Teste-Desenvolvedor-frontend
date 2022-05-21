@@ -3,10 +3,18 @@
     <!-- ADD ADDRESS -->
     <div class="container add-address">
       <div id="form" class="container">
-        <input type="search" name="search" id="search" v-model="zipCode" />
+        <input 
+          type="search" 
+          name="search" 
+          id="search" 
+          v-model="zipCode"
+          placeholder="Incira o CEP"
+          :class="{active:isAlert}"
+        />
+        <span></span>
         <button type="submit" v-on:click="pushZipCode(zipCode)">
           <span class="material-icons">add</span>
-          <span>Adicionar endereço</span>
+          <span> ADD CEP</span>
         </button>
       </div>
       
@@ -18,7 +26,7 @@
           <span class="material-icons icon">where_to_vote</span>
         </span>
         <span class="container zip-code">cep</span>
-        <span class="container" style="color:gray">{{zipCodeList}}</span>
+        <span class="container" style="color:gray">{{maskZipCode(zipCodeList)}}</span>
       </div>
 
       <div class="container address-generator">
@@ -46,7 +54,7 @@
             <span>{{responseZipCode.logradouro}}</span>
             <span>{{responseZipCode.localidade}}-{{responseZipCode.uf}}</span>
           </div>
-          <span class="zip-code">{{responseZipCode.cep}}</span>
+          <span class="zip-code">{{maskZipCode(responseZipCode.cep)}}</span>
         </address>
 
         <button 
@@ -68,27 +76,70 @@
     data() {
       return {
         zipCode: '',
-        zipCodeList: [],
-        responseZipCode: [],
+        zipCodeList: [] as string[],  
+        responseZipCode: [] as string[],
+
+        isAlert: false,
       };
     },
     methods : {
-      pushZipCode(zipCode: never) {
-        this.zipCodeList.push(zipCode);
+      pushZipCode(zipCode: never | string) {
+        if (zipCode === '') {
+          alert('Preencha o campo de CEP');
+          this.alertInputActive();
+        } else {
+          let clearZipCode = zipCode.replace(/[^0-9]/g, '');
+          this.verificationZipCode(clearZipCode);
+        }
       },
-      
-      getZipCode(zipCodeList: never) {
-        this.responseZipCode = [];
-        this.zipCodeList.forEach(zipCodeList => {
-          fetch(`https://viacep.com.br/ws/${zipCodeList}/json/`)
-            .then(response => response.json())
-            .then(response => {
-              this.responseZipCode.push(response);
-            });
+
+      async verificationZipCode(clearZipCode: string) {
+        await fetch(`https://viacep.com.br/ws/${clearZipCode}/json/`)
+        .then(response => response.json())
+        .then(response => {
+          this.zipCodeList.push(response.cep) as never;
+          this.zipCode = '';
+        })
+        .catch(error => {
+          alert('CEP inválido');
+          this.alertInputActive();
+          console.log(error);
         });
       },
 
-      deleteZipCode(index: never) {
+      alertInputActive() {
+        this.isAlert = !this.isAlert;
+        setTimeout(() => {
+          this.isAlert = !this.isAlert;
+        }, 3000);
+      },
+
+      maskZipCode(zipCode: string) {
+        let mask = zipCode.replace(/[^0-9]/g, '');
+        let maskZipCode = mask.replace(/(\d{5})(\d{3})/, '$1-$2');
+        return maskZipCode;
+      },
+      
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      getZipCode(zipCodeList: never) {
+        if (this.zipCodeList.length === 0) {
+          alert('Erro ao buscar endereço, sua lista de cep está vazia');
+        } else {
+          this.zipCodeList.forEach(zipCodeList => {
+            fetch(`https://viacep.com.br/ws/${zipCodeList}/json/`)
+              .then(response => response.json())
+              .then(response => {
+                this.responseZipCode.push(response) as never;
+              })
+              .catch( error => {
+                console.log(error);
+                alert('Erro ao buscar endereço');
+              });
+          });
+        }
+      },
+
+      deleteZipCode(index: number) {
         this.zipCodeList.splice(index, 1);
         this.responseZipCode.splice(index, 1);
       },
@@ -117,6 +168,10 @@
           height: 50px;
           padding: 0.5rem;
           border-radius: 0.5rem;
+          &.active {
+            border: 1px solid red;
+            opacity: 0.8;
+          }
         }
 
         button {
